@@ -18,7 +18,7 @@ import CountUp from 'react-countup'
 
 
 const Home = (res) =>{
-  const [ mylist , setMylist ] = useState( res.list);
+  const [ mylist , setMylist ] = useState( res.data);
   const [ topList , setTopList ] = useState( res.topList);
   const [ type , setType ] = useState( res.type);
   const [ bibidaoList , setBibidaoList ] = useState( res.bibidaoList);
@@ -82,22 +82,22 @@ const Home = (res) =>{
                         </Link>
                       </div>
                       <div className="list-icon">
-                        <span><Icon type="calendar" /> {item.addTime}</span>
-                        <span><Icon type="folder" /> {item.typeName}</span>
-                        <span><Icon type="fire" /><CountUp end={item.view_count} />人</span>
+                        <span><Icon type="calendar" /> {item.createTime}</span>
+                        <span><Icon type="folder" /> Java基础</span>
+                        {/*<span><Icon type="fire" /><CountUp end={item.view_count} />人</span>*/}
                       </div>
                       <div className="list-context"
-                          dangerouslySetInnerHTML={{__html:item.introduce_html}}
+                          dangerouslySetInnerHTML={{__html:item.introduction}}
                       >
                       </div>
-                      <div className="list-go">
+                      {/*<div className="list-go">
                           <Icon type="file" /> &nbsp;
                           <span  onClick={goLoading} onClick={goLoading}>
                             <Link href={{pathname:'/detailed',query:{id:item.id}}} >
                               <a>查看全文 </a>
                             </Link>
                           </span>
-                      </div>
+                      </div>*/}
                       </Spin>
                     </List.Item>
                   )}
@@ -144,7 +144,13 @@ Home.getInitialProps = async (context)=>{
 
 
   const promise = new Promise((resolve)=>{
-      resolve({})
+      axios(servicePath.indexBlogList).then(
+          (res)=>{
+              console.log("==============")
+              console.log(res.data)
+              resolve(res.data)
+          }
+      )
   })
 
   return await promise

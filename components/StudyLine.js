@@ -1,33 +1,25 @@
 import '../static/style/components/studyLine.css'
-import {Row,Col,Icon} from 'antd'
+import {Row,Col,Icon,List} from 'antd'
 
  const StudyLine = ()=>{
     return (
-        <div className=" comm-box">
+        <div className="comm-box">
           <div className="ls-main-title">文章分类</div>
-          <a href="https://jspang.com/detailed?id=56" target="_blank">
-            <Row className="sl-row">
-                <Col span={22} className="sl-title"><Icon type="book"/> React学习路线</Col>
-                <Col span={2}  className="sl-icon"><Icon type="right" /></Col>
-            </Row>
-          </a>
-
-          <a href="https://jspang.com/detailed?id=57" target="_blank">
-            <Row className="sl-row">
-                <Col span={14} className="sl-title"><Icon type="book"/> Vue2.x学习路线</Col>
-                <Col span={8} className="sl-title1">基础到实战</Col>
-                <Col span={2}  className="sl-icon"><Icon type="right" /></Col>
-            </Row>
-          </a>
-
-          <a href="https://jspang.com/detailed?id=58" target="_blank">
-            <Row className="sl-row">
-                <Col span={14} className="sl-title"><Icon type="book"/> Flutter学习路线</Col>
-                <Col span={8} className="sl-title1">基础到实战</Col>
-                <Col span={2}  className="sl-icon"><Icon type="right" /></Col>
-            </Row>
-          </a>
-
+            <List style={{width: 100}}
+                split = {false}
+                size = "small"
+                dataSource={[{id:"adf",title:"sdf"},{id:"qwer",title:"tyi"}]}
+                renderItem={item => (
+                    <List.Item>
+                        <a href="https://jspang.com/detailed?id=56" target="_blank">
+                            <Row className="sl-row">
+                                <Col span={22} className="sl-title"><Icon type="book"/> {item.title}</Col>
+                                <Col span={2}  className="sl-icon"><Icon type="right" /></Col>
+                            </Row>
+                        </a>
+                    </List.Item>
+                )}
+            />
         </div>
     )
  }

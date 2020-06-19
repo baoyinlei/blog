@@ -27,7 +27,7 @@ const Author =()=>{
 
     return (
         <div className="author-div comm-box">
-            <div> <Avatar size={100} src="http://blogimages.jspang.com/blogtouxiang1.jpg"  /></div>
+            <div> <Avatar size={100} src="http://byl-blog.oss-cn-hangzhou.aliyuncs.com/common/aecce4ac5c3d24c78e47f93da4c6102.jpg"  /></div>
             <div className="author-introduction">
                 <div className="author-name">byl_jxq</div>
                 <div>Java开发</div>

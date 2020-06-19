@@ -118,7 +118,7 @@ const Home = (res) =>{
           </Col>
         </Row>
 
-      <Footer/>
+      {/*<Footer/>*/}
       <BackTop />
    </>
   )

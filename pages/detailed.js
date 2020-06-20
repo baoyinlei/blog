@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import Head from 'next/head'
-import {Row, Col , Icon ,Breadcrumb ,BackTop ,Skeleton } from 'antd'
+import {Row, Col, Icon, Breadcrumb, BackTop, Skeleton, Affix} from 'antd'
 
 import Header from '../components/Header'
 import Author from '../components/Author'
@@ -16,6 +16,7 @@ import hljs from "highlight.js";
 import 'highlight.js/styles/monokai-sublime.css';
 import Tocify from '../components/tocify.tsx'
 import  servicePath  from '../config/apiUrl'
+import StudyLine from "../components/StudyLine";
 
 
 
@@ -24,12 +25,11 @@ import  servicePath  from '../config/apiUrl'
 const Detailed = (props) =>{
 
   let articleContent=props.article_content
-  if(articleContent=='id错误'){
+  if(!props.data.contentHtml){
     console.log('渲染完成，但什么都没有')
 
     return false
   }
-
   useEffect( ()=>{
 
     setTimeout(()=>{
@@ -43,15 +43,15 @@ const Detailed = (props) =>{
 
   },[])
 
-  const [html,setHtml] = useState(props.article_content_html)
+  const [html,setHtml] = useState(props.data.contentHtml)
   const [tocify,setTocify] = useState(new Tocify())
   const [loading,setLoading] = useState(true)
 
 
   const myFuction = async ()=>{
 
-      let newhtml =await marked(props.article_content)
-      //setHtml(newhtml)
+      let newhtml =await marked(props.data.content)
+      setHtml(newhtml)
       setLoading(false)
       //console.log(tocify.render())
 
@@ -88,34 +88,33 @@ const Detailed = (props) =>{
   return (
     <>
       <Head>
-        <title>技术胖-{props.title}</title>
-        <meta name="description" content={props.title}></meta>
-        <link rel="icon" href="../static/favicon.ico" mce_href="../static/favicon.ico" type="image/x-icon" />
+        <title>小鸡腿</title>
+        <meta name="description" content={props.data.title}></meta>
+        <link rel="icon" href="https://byl-blog.oss-cn-hangzhou.aliyuncs.com/common/favicon.ico" mce_href="http://byl-blog.oss-cn-hangzhou.aliyuncs.com/common/aecce4ac5c3d24c78e47f93da4c6102.jpg" type="image/x-icon" />
       </Head>
+        <Affix offsetTop={0}>
       <Header />
+        </Affix>
       <Row className="comm-main" type="flex" justify="center">
         <Col className="comm-left" xs={24} sm={24} md={18}   >
             <div>
               <div className="bread-div">
                 <Breadcrumb>
                   <Breadcrumb.Item><a href="/">首页</a></Breadcrumb.Item>
-                  <Breadcrumb.Item>{props.typeName}</Breadcrumb.Item>
-                  <Breadcrumb.Item> {props.title}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{props.data.typeStr}</Breadcrumb.Item>
+                  <Breadcrumb.Item> {props.data.title}</Breadcrumb.Item>
                 </Breadcrumb>
               </div>
 
              <div>
                 <div className="detailed-title">
-                {props.title}
+                {props.data.title}
                 </div>
 
                 <div className="list-icon center">
-                  <span><Icon type="calendar" /> {props.addTime}</span>
-                  <span><Icon type="folder" /> {props.typeName}</span>
-                  <span><Icon type="fire" /> {props.view_count}</span>
-                </div>
-                <div className="detailed-content"  dangerouslySetInnerHTML = {{__html:props.introduce_html}}  >
-
+                  <span><Icon type="calendar" /> {props.data.createTime}</span>
+                  <span><Icon type="folder" /> {props.data.typeStr}</span>
+                  <span><Icon type="fire" /> {props.data.viewNumber}</span>
                 </div>
 
                   <div className="detailed-content"
@@ -131,11 +130,14 @@ const Detailed = (props) =>{
         </Col>
 
         <Col className="comm-right" xs={0} sm={0} md={6} >
+            <Affix offsetTop={60}>
           <Author />
-          <Advert />
-          <Rightmi/>
+          <StudyLine/>
+            </Affix>
+          {/*<Advert />
+          <Rightmi/>*/}
 
-            <div>
+            {/*<div>
 
               <div className="detailed-nav comm-box">
                 <div className="nav-title">文章目录</div>
@@ -147,12 +149,12 @@ const Detailed = (props) =>{
               </div>
 
 
-            </div>
+            </div>*/}
 
 
         </Col>
       </Row>
-      <Footer/>
+      {/*<Footer/>*/}
       <BackTop />
 
 
@@ -162,29 +164,33 @@ const Detailed = (props) =>{
 
 }
 
-Detailed.getInitialProps = async(context)=>{
-  let date=new Date();
+Detailed.getInitialProps = async(context)=> {
+    let date = new Date();
 
 
-  let month=date.getMonth();
-  let day=date.getDate();
+    let month = date.getMonth();
+    let day = date.getDate();
 
-  let  hour=date.getHours();
-  let minute=date.getMinutes();
-  let second=date.getSeconds();
-  let time=month+'/'+day+'/'+hour+':'+minute+':'+second
-
-
-  console.log('----->'+time+':Visit the details page,parameter='+context.query.id)
-  //把ID强制转换成数字
-
-  let id =parseInt(context.query.id)
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
+    let time = month + '/' + day + '/' + hour + ':' + minute + ':' + second
 
 
+    console.log('----->' + time + ':Visit the details page,parameter=' + context.query.id)
+    //把ID强制转换成数字
 
-
-
-
+    let id = parseInt(context.query.id)
+    const promise = new Promise((resolve) => {
+        axios({
+            url: servicePath.getArticleById+id,
+        }).then(
+            (res) => {
+                resolve(res.data)
+            }
+        )
+    })
+return await promise
 
 }
 

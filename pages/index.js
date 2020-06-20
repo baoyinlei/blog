@@ -20,9 +20,10 @@ import CountUp from 'react-countup'
 const Home = (res) =>{
   const [ mylist , setMylist ] = useState( res.data);
   const [ topList , setTopList ] = useState( res.topList);
-  const [ type , setType ] = useState( res.type);
   const [ bibidaoList , setBibidaoList ] = useState( res.bibidaoList);
-  const [ loading,setLoading] =useState(false)
+  const [ loading,setLoading] =useState(false);
+  const [title, setTitle] = useState(res.title?res.title:"最新文章");
+  const [type, setType] = useState();
 
 
 
@@ -56,7 +57,7 @@ const Home = (res) =>{
       <Head>
         <title>小鸡腿的博客</title>
         <meta name="description" content="小鸡腿的博客"></meta>
-        <link rel="icon" href="../static/favicon.ico" mce_href="../static/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="https://byl-blog.oss-cn-hangzhou.aliyuncs.com/common/favicon.ico" mce_href="https://byl-blog.oss-cn-hangzhou.aliyuncs.com/common/favicon.ico" type="image/x-icon" />
       </Head>
       <Affix offsetTop={0}>
         <Header/>
@@ -70,7 +71,7 @@ const Home = (res) =>{
 
 
                 <List
-                  header={<div className="list-header">最新文章</div>}
+                  header={<div className="list-header">{title}</div>}
                   itemLayout="vertical"
                   dataSource={mylist}
                   renderItem={item => (
@@ -82,8 +83,12 @@ const Home = (res) =>{
                         </Link>
                       </div>
                       <div className="list-icon">
+                          {
+                              item.isTop === 1? <span style={{color:"red"}}><Icon type="calendar" /> 置顶</span>:''
+                          }
+
                         <span><Icon type="calendar" /> {item.createTime}</span>
-                        <span><Icon type="folder" /> Java基础</span>
+                        <span><Icon type="folder" /> {item.typeStr}</span>
                         {/*<span><Icon type="fire" /><CountUp end={item.view_count} />人</span>*/}
                       </div>
                       <div className="list-context"
@@ -92,6 +97,7 @@ const Home = (res) =>{
                       </div>
                       {/*<div className="list-go">
                           <Icon type="file" /> &nbsp;
+                          <span className={"ant-tag ant-tag-red"}>置顶</span>
                           <span  onClick={goLoading} onClick={goLoading}>
                             <Link href={{pathname:'/detailed',query:{id:item.id}}} >
                               <a>查看全文 </a>
@@ -107,8 +113,8 @@ const Home = (res) =>{
           </Col>
 
           <Col className="comm-right" xs={0} sm={0} md={6} >
-            <Author />
-            <Affix offsetTop={60}>
+              <Affix offsetTop={60}>
+                <Author />
               {/*<Rightmi/>*/}
               <StudyLine/>
               {/*<Advert />*/}
@@ -138,21 +144,23 @@ Home.getInitialProps = async (context)=>{
   let second=date.getSeconds();
   let time=month+'/'+day+'/'+hour+':'+minute+':'+second
 
-
-
-  console.log('----->'+time+':Visit the Index page')
-
-
   const promise = new Promise((resolve)=>{
-      axios(servicePath.indexBlogList).then(
+      axios({
+          url: servicePath.indexBlogList,
+          headers:{'Content-type':'application/json',},
+          data: {
+              title: context.query.title?context.query.title:"",
+              type: context.query.type?context.query.type:"",
+          },
+      }).then(
           (res)=>{
-              console.log("==============")
-              console.log(res.data)
+              if (context.query.title) {
+                  res.data.title = context.query.title
+              }
               resolve(res.data)
           }
       )
   })
-
   return await promise
 }
 

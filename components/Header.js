@@ -16,7 +16,7 @@ const Header = () => {
                         <Col  xs={24} sm={24} md={16} >
                             <span className="header-logo">
                                 <Link href={{pathname:'/'}}>
-                                    <a>还没想好 </a>
+                                    <a>写代码还房贷 </a>
                                 </Link>
 
                             </span>
@@ -26,13 +26,13 @@ const Header = () => {
                         <Col className="memu-div" xs={0} sm={0} md={8} >
                            <Row type='flex'>
                                <Col xs={0} sm={0} md={6}  >
-                                    <Link  href={{pathname:'/'}}>
-                                        <a><Icon type='home' /> 博客首页</a>
+                                    <Link  href={{pathname:'/'}} >
+                                        <a target="_top"><Icon type='home' /> 博客首页</a>
                                     </Link>
                                </Col>
                                <Col xs={0} sm={0} md={6}  >
-                                    <Link  href={{pathname:'/list',query:{id:1}}}>
-                                        <a><Icon type='youtube' /> 文章归档</a>
+                                    <Link href={"#"}>
+                                        <a onClick={() => alert("未完成")}><Icon type='youtube' /> 文章归档</a>
                                     </Link>
                                </Col>
                            </Row>

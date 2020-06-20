@@ -29,7 +29,7 @@ const Author =()=>{
         <div className="author-div comm-box">
             <div> <Avatar size={100} src="http://byl-blog.oss-cn-hangzhou.aliyuncs.com/common/aecce4ac5c3d24c78e47f93da4c6102.jpg"  /></div>
             <div className="author-introduction">
-                <div className="author-name">byl_jxq</div>
+                <div className="author-name">写代码还房贷</div>
                 <div>Java开发</div>
                 <div className="author-tag">
                 {/*<Tag color="magenta">小鸡腿</Tag>
@@ -40,20 +40,20 @@ const Author =()=>{
                 </div>
 
                 <Divider>社交账号</Divider>
-                <Tooltip title="B站 : https://space.bilibili.com/165659472">
+{/*                <Tooltip title="B站 : https://space.bilibili.com/165659472">
                     <a href="https://space.bilibili.com/165659472" target="_blank">
                     <Avatar size={28} src="http://newimg.jspang.com/bilibiliIcon1.png" className="account"  />
                     </a>
-                </Tooltip>
-                <Tooltip title="https://github.com/shenghy">
-                    <a href="https://github.com/shenghy" target="_blank">
+                </Tooltip>*/}
+                <Tooltip title="https://github.com/baoyinlei">
+                    <a href="https://github.com/baoyinlei" target="_blank">
                     <Avatar size={28} icon="github" className="account"  />
                     </a>
                 </Tooltip>
-                <Tooltip title="QQ:8745662">
+                <Tooltip title="QQ:591385667">
                     <Avatar size={28} icon="qq"  className="account" />
                 </Tooltip>
-                <Tooltip title="wechat:php100">
+                <Tooltip title="wechat:byl591385667">
                 <Avatar size={28} icon="wechat"  className="account"  />
                 </Tooltip>
 
